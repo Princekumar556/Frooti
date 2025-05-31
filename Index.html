@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌿 Matter Quiz - ASMR Edition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #f6fdfb;
+      color: #333;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #446c5d;
+      font-size: 30px;
+      margin-bottom: 25px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      padding: 15px 20px;
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 6px 6px 14px rgba(0, 0, 0, 0.15),
+                  -4px -4px 8px rgba(255, 255, 255, 0.7);
+      transition: transform 0.2s ease;
+    }
+
+    .question:hover {
+      transform: scale(1.01);
+    }
+
+    label {
+      display: block;
+      margin: 8px 0;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    input[type="radio"] {
+      margin-right: 10px;
+      accent-color: #88c9bf;
+    }
+
+    button {
+      background: #88c9bf;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      color: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 20px auto;
+      display: block;
+      transition: background 0.3s ease;
+      box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.2),
+                  -4px -4px 6px rgba(255, 255, 255, 0.6);
+    }
+
+    button:hover {
+      background: #75b3aa;
+    }
+
+    .result {
+      font-weight: bold;
+      font-size: 22px;
+      text-align: center;
+      margin-top: 30px;
+      color: #2e7d6c;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🌿 Matter in Our Surroundings – Soft Quiz</h2>
+
+  <form id="quizForm"></form>
+  <div class="result" id="result"></div>
+
+  <script>
+    const questions = [
+      { q: "1. Matter is made up of:", options: ["Atoms", "Cells", "Tissues", "Fibres"], answer: "Atoms" },
+      { q: "2. Which of the following has the highest density?", options: ["Solid", "Liquid", "Gas", "Plasma"], answer: "Solid" },
+      { q: "3. Which state of matter has no fixed shape but fixed volume?", options: ["Solid", "Liquid", "Gas", "Plasma"], answer: "Liquid" },
+      { q: "4. Which of these is compressible?", options: ["Solid", "Liquid", "Gas", "All of these"], answer: "Gas" },
+      { q: "5. Boiling point of water is:", options: ["0°C", "50°C", "100°C", "212°C"], answer: "100°C" },
+      { q: "6. Process of changing solid to gas is called:", options: ["Condensation", "Freezing", "Sublimation", "Evaporation"], answer: "Sublimation" },
+      { q: "7. What causes matter to change state?", options: ["Force", "Temperature", "Pressure", "Both B and C"], answer: "Both B and C" },
+      { q: "8. The smell of perfume spreads due to:", options: ["Evaporation", "Sublimation", "Diffusion", "Condensation"], answer: "Diffusion" },
+      { q: "9. Latent heat of vaporization is the heat energy required to:", options: ["Melt solid", "Freeze liquid", "Evaporate liquid", "Condense gas"], answer: "Evaporate liquid" },
+      { q: "10. Which state of matter has the weakest intermolecular force?", options: ["Solid", "Liquid", "Gas", "Plasma"], answer: "Gas" },
+      { q: "11. Rate of evaporation increases with:", options: ["Decrease in surface area", "Decrease in temperature", "Increase in wind speed", "Increase in humidity"], answer: "Increase in wind speed" },
+      { q: "12. Which state of matter has maximum kinetic energy?", options: ["Solid", "Liquid", "Gas", "Plasma"], answer: "Gas" },
+      { q: "13. Water at 100°C can exist as:", options: ["Only liquid", "Only gas", "Both liquid and gas", "Neither"], answer: "Both liquid and gas" },
+      { q: "14. Conversion of gas to liquid is called:", options: ["Condensation", "Evaporation", "Sublimation", "Fusion"], answer: "Condensation" },
+      { q: "15. Which of these can undergo sublimation?", options: ["Ice", "Camphor", "Salt", "Water"], answer: "Camphor" },
+      { q: "16. The SI unit of temperature is:", options: ["Celsius", "Kelvin", "Fahrenheit", "Joule"], answer: "Kelvin" },
+      { q: "17. Solid CO₂ is known as:", options: ["Liquid CO₂", "Dry ice", "Carbonice", "Frozen gas"], answer: "Dry ice" },
+      { q: "18. Gases can be liquefied by:", options: ["Decreasing pressure", "Increasing temperature", "Increasing pressure and decreasing temperature", "None"], answer: "Increasing pressure and decreasing temperature" },
+      { q: "19. Which of these is NOT matter?", options: ["Air", "Light", "Stone", "Water"], answer: "Light" },
+      { q: "20. Which of the following has highest intermolecular force?", options: ["Solid", "Liquid", "Gas", "Plasma"], answer: "Solid" }
+    ];
+
+    const form = document.getElementById("quizForm");
+
+    questions.forEach((item, index) => {
+      const div = document.createElement("div");
+      div.className = "question";
+
+      const qText = document.createElement("p");
+      qText.innerText = item.q;
+      div.appendChild(qText);
+
+      item.options.forEach(opt => {
+        const label = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "q" + index;
+        radio.value = opt;
+        label.appendChild(radio);
+        label.append(" " + opt);
+        div.appendChild(label);
+      });
+
+      form.appendChild(div);
+    });
+
+    const btn = document.createElement("button");
+    btn.innerText = "🌼 Submit";
+    btn.type = "button";
+    btn.onclick = checkAnswers;
+    form.appendChild(btn);
+
+    function checkAnswers() {
+      let score = 0;
+      questions.forEach((item, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected && selected.value === item.answer) score++;
+      });
+      document.getElementById("result").innerText = `🌸 Your score: ${score} / ${questions.length}`;
+    }
+  </script>
+
+</body>
+</html>
